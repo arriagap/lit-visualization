@@ -1,0 +1,36 @@
+1) Need to parse text. Turn each word into an indexed thing. Each word
+is either masked out for being a super common word or is grouped into
+a lemma. 
+-Have code go word by word, search document for all occurrences of
+word
+-Remove all punctuation. For apostrophes search for 's and
+remove. Since contractions will all fall under very common words,
+they'll all be removed. There are probably already existing lists
+which I can pull from other code
+-For words that aren't going to be masked query python dictionary for
+other forms of the word as well as synonyms. Each one of these groups
+of words becomes an indexed lemma
+2) Take word list and find a distance metric between lemmas
+-Can do nearest neighbor for every word or find each pair with each
+other. This can probably get pretty expensive so may only find a
+finite number of these
+3) Based on distances, partition phase space and find strongest
+clusters.
+4) Make cuts on the tightness of a cluster by comparing to randomly
+distributed words 
+
+
+
+Questions
+1) Do we consider particles in the distance metric? What constitutes
+nearness of a word or theme to another word or theme. Perhaps test on
+a short story 
+2) Do we consider distances across chapters or just within a chapter?
+This would save a lot of computation time. May depend on the
+author. Even Doctor Zhivago which has very short chapters seems to
+have things contained within the chapter especially since it switches
+so often between different character perspectives
+3) How does the distance metric contribute to the clustering of words?
+The math for this is probably in some of the machine learning
+clustering algorithms
+4) Where do we make the cut of what's associated with a word or not? 
