@@ -11,6 +11,8 @@ def split_text(txt, punctuation_file = 'filtering_files/punctuation.txt'):
     new_txt = []
     for line in txt:
         newline = copy.deepcopy(line)
+        if "'s" in newline:
+            newline = re.sub("'s") 
         for p in p_list:
             if p in newline:
                 newline = re.sub(p, '', newline)
@@ -36,7 +38,7 @@ def remove_stopwords(txt, stop_words_file = 'filtering_files/stop_words_eng.txt'
     
 
 def get_synset(word):
-    
+    pass
 
 
 def test():
