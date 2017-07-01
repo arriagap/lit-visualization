@@ -34,3 +34,20 @@ so often between different character perspectives
 The math for this is probably in some of the machine learning
 clustering algorithms
 4) Where do we make the cut of what's associated with a word or not? 
+5) Check for multi-word lemmas
+
+
+
+
+-Each word has an affinity to its own cluster of words.
+-Want to try distances of individual words before working on clusters
+-How to find problem words with too many meanings? If lemma set is too
+large, not a good set to consider
+
+We only want to consider the most common words. Instead of forming
+lemmas out of every single word, should take the top maybe 300 words
+and form tight clusters from those. 
+-Let's first try finding the occurrences of the top 300 words and look
+at how they are clustered. 
+-Then take a fairly representative one and see how many clusters we
+can group together as a cohesive theme.  

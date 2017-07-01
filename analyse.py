@@ -101,14 +101,32 @@ def mark_words(text, getset = 'synset'):
                 marks[i] = int(maxkey)
                 maxkey += 1
     return word_dic, marks
+
+
+
+def mark_frequency(text):
+    dic = PyDictionary()
+    word_dic = {}
+    maxkey = 0
+    keys = []
+    for i, word in enumerate(text):
+        if word != '':
+            if word in keys:
+                word_dic[word] += 1
+            else:
+                word_dic[word] = 1
+                keys = word_dic.keys()
+    return word_dic
+
                     
 
 
 
 def test_text():
-    f = open('byron.txt', 'rb')
-    a = f.readlines()
+    f = open('ivans.txt', 'rb')
+    a = f.readlines()[:800]
     a = split_text(a)
     a = remove_stopwords(a)
+
     return a
 
