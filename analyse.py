@@ -105,6 +105,14 @@ def mark_words(text, getset = 'synset'):
 
 
 
+def get_top_words(word_freq, word_locs, numwords = 200):
+    sorted_freqs = sorted(word_freq, key = lambda tup:tup[1])
+    truncated_freqs = sorted_freqs[-numwords:]
+    truncated_word_locs = {}
+    for freq in sorted_freqs:
+        word = freq[0]
+        truncated_word_locs[word] = word_locs[word]
+    return truncated_freqs, truncated_word_locs
 
 
 
@@ -151,19 +159,21 @@ def mark_words_sets(text, getset = 'synset'):
 
 
 
-def mark_words_individual(text, numwords = 200):
+def mark_words_individual(text):
     text = n.array(text)
     marks = n.zeros(len(text), dtype = int)
     null_words = n.where(text == '')
-    print null_words
-    word_freq = {'-1': len(null_words)}
+
+#    word_freq = {'-1': len(null_words)}
+    word_freq = [('-1', len(null_words))]
     word_locs = {'-1': null_words}
     words_left = text[n.where(text != '')]
     while len(words_left) > 0:
         curr_word = words_left[0]
         print len(words_left)
         wh = n.where(text == curr_word)
-        word_freq[curr_word] = len(wh[0])
+        word_freq.append((curr_word, len(wh[0])))
+#        word_freq[curr_word] = len(wh[0])
         word_locs[curr_word] = wh
         words_left = words_left[n.where(words_left != curr_word)]
     return word_freq, word_locs
@@ -194,10 +204,7 @@ def mark_frequency(text):
 def test_text():
     f = open('ivans.txt', 'rb')
     a = f.readlines()[0:200]
-    print a
     a = split_text(a)
-    print a
     a = remove_stopwords(a)
-
     return a
 
