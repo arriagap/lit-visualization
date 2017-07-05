@@ -1,6 +1,7 @@
 import pickle
 import re
 import copy
+import numpy as n
 
 def split_text(txt, punctuation_file = 'filtering_files/punctuation.txt'):
     p_file = open(punctuation_file)
@@ -15,6 +16,11 @@ def split_text(txt, punctuation_file = 'filtering_files/punctuation.txt'):
             newline = re.sub("'s") 
         for p in p_list:
             if p in newline:
+
+                if p == '?':
+                    p = '\?'
+                if p == '*':
+                    p = '\*'
                 newline = re.sub(p, '', newline)
         if '\n' in newline:
             newline = re.sub('\n', '', newline)

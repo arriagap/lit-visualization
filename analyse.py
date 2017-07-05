@@ -104,6 +104,75 @@ def mark_words(text, getset = 'synset'):
 
 
 
+
+
+
+
+
+def mark_words_sets(text, getset = 'synset'):
+    dic = PyDictionary()
+    marks = n.zeros(len(text), dtype = int)
+    word_dic = {'-1': ['']}
+    maxkey = 0
+    for i, word in enumerate(text):
+        if word == '':
+            marks[i] = -1
+        else:
+            key = 0
+            found = 0
+            if getset == 'synset':
+                synset = get_synset(word, dic)
+            elif getset == 'lemmas':
+                synset = get_lemmaset(word)
+            while found == 0 and key < maxkey: 
+                if word in word_dic[str(key)]:
+                    marks[i] = key
+                    found = 1
+                else:
+                    syn_ind = 0 
+                    while found == 0 and syn_ind < len(synset):
+                        if synset[syn_ind] in word_dic[str(key)]:
+                            marks[i] = key
+                            found = 1
+                            word_dic[str(key)].append(word)
+                        else:
+                            syn_ind += 1
+                    key += 1
+            if found == 0:
+                if getset == 'synset':
+                    newsyns = get_synset(word, dic)
+                elif getset == 'lemmas':
+                    newsyns = get_lemmaset(word)
+                word_dic[str(maxkey)] = newsyns
+                marks[i] = int(maxkey)
+                maxkey += 1
+    return word_dic, marks
+
+
+
+
+def mark_words_individual(text, numwords = 200):
+    text = n.array(text)
+    marks = n.zeros(len(text), dtype = int)
+    null_words = n.where(text == '')
+    print null_words
+    word_freq = {'-1': len(null_words)}
+    word_locs = {'-1': null_words}
+    words_left = text[n.where(text != '')]
+    while len(words_left) > 0:
+        curr_word = words_left[0]
+        print len(words_left)
+        wh = n.where(text == curr_word)
+        word_freq[curr_word] = len(wh[0])
+        word_locs[curr_word] = wh
+        words_left = words_left[n.where(words_left != curr_word)]
+    return word_freq, word_locs
+        
+
+
+
+
+
 def mark_frequency(text):
     dic = PyDictionary()
     word_dic = {}
@@ -124,8 +193,10 @@ def mark_frequency(text):
 
 def test_text():
     f = open('ivans.txt', 'rb')
-    a = f.readlines()[:800]
+    a = f.readlines()[0:200]
+    print a
     a = split_text(a)
+    print a
     a = remove_stopwords(a)
 
     return a
